@@ -195,7 +195,7 @@ gr_inqtext(x, y, s::Symbol) = gr_inqtext(x, y, string(s))
 
 function gr_inqtext(x, y, s)
     if length(s) >= 2 && s[1] == '$' && s[end] == '$'
-        GR.inqtextext(x, y, s[2:end-1])
+        GR.inqmathtex(x, y, s[2:end-1])
     elseif search(s, '\\') != 0 || contains(s, "10^{")
         GR.inqtextext(x, y, s)
     else
