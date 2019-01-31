@@ -33,7 +33,7 @@ if isinteractive()
         # PackageSpec(name="LaTeXStrings"),
     ])
 else
-    push!(to_add, PackageSpec(url="https://github.com/JuliaPlots/PlotReferenceImages.jl.git"))
+    push!(to_add, PackageSpec(name="PlotReferenceImages", url="https://github.com/JuliaPlots/PlotReferenceImages.jl.git"))
 end
 
 Pkg.add(to_add)
