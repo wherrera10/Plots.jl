@@ -1,4 +1,3 @@
-
 function finalize_subplot!(plt::Plot, st, plotattributes::AKW)
     sp = _prepare_subplot(plt, plotattributes)
     _prepare_annotations(sp, plotattributes)
