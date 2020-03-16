@@ -650,23 +650,6 @@ end
 
 # -----------------------------------------------------------------------
 
-abstract type AbstractSurface end
-
-"represents a contour or surface mesh"
-struct Surface{M<:AMat} <: AbstractSurface
-  surf::M
-end
-
-Surface(f::Function, x, y) = Surface(Float64[f(xi,yi) for yi in y, xi in x])
-
-Base.Array(surf::Surface) = surf.surf
-
-for f in (:length, :size)
-  @eval Base.$f(surf::Surface, args...) = $f(surf.surf, args...)
-end
-Base.copy(surf::Surface) = Surface(copy(surf.surf))
-Base.eltype(surf::Surface{T}) where {T} = eltype(T)
-
 function expand_extrema!(a::Axis, surf::Surface)
     ex = a[:extrema]
     for vi in surf.surf
@@ -686,30 +669,6 @@ end
 # # I don't want to clash with ValidatedNumerics, but this would be nice:
 # ..(a::T, b::T) = (a,b)
 
-struct Volume{T}
-    v::Array{T,3}
-    x_extents::Tuple{T,T}
-    y_extents::Tuple{T,T}
-    z_extents::Tuple{T,T}
-end
-
-default_extents(::Type{T}) where {T} = (zero(T), one(T))
-
-function Volume(v::Array{T,3},
-                x_extents = default_extents(T),
-                y_extents = default_extents(T),
-                z_extents = default_extents(T)) where T
-    Volume(v, x_extents, y_extents, z_extents)
-end
-
-Base.Array(vol::Volume) = vol.v
-for f in (:length, :size)
-  @eval Base.$f(vol::Volume, args...) = $f(vol.v, args...)
-end
-Base.copy(vol::Volume{T}) where {T} = Volume{T}(copy(vol.v), vol.x_extents, vol.y_extents, vol.z_extents)
-Base.eltype(vol::Volume{T}) where {T} = T
-
-# -----------------------------------------------------------------------
 
 # style is :open or :closed (for now)
 struct Arrow
@@ -771,13 +730,6 @@ function add_arrows(func::Function, x::AVec, y::AVec)
     end
 end
 
-# -----------------------------------------------------------------------
-
-"Represents data values with formatting that should apply to the tick labels."
-struct Formatted{T}
-    data::T
-    formatter::Function
-end
 
 # -----------------------------------------------------------------------
 "create a BezierCurve for plotting"
