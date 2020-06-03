@@ -1,7 +1,5 @@
 # Plots
 
-![GitHub Actions CI](https://github.com/JuliaPlots/Plots.jl/workflows/ci/badge.svg)
-
 [travis-img]: https://img.shields.io/travis/JuliaPlots/Plots.jl?logo=travis
 [travis-url]: https://travis-ci.org/JuliaPlots/Plots.jl
 
